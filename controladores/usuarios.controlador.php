@@ -4,8 +4,7 @@ class ControladorUsuarios
     /*=============================================
     INGRESO DE USUARIO
     =============================================*/
-    static public function ctrIngresoUsuario()
-    {
+    static public function ctrIngresoUsuario(){
         if (isset($_POST["ingUsuario"])) {
             if (preg_match('/^[a-zA-Z0-9]+$/', $_POST["ingUsuario"]) &&
                 preg_match('/^[a-zA-Z0-9]+$/', $_POST["ingPassword"])) {
@@ -16,6 +15,11 @@ class ControladorUsuarios
                 $respuesta = ModeloUsuarios::MdlMostrarUsuarios($tabla, $item, $valor);
                 if ($respuesta !== false && isset($respuesta["usuario"]) && $respuesta["usuario"] == $_POST["ingUsuario"] && $respuesta["password"] == $encriptar) {
                     $_SESSION["iniciarSesion"] = "ok";
+                    $_SESSION["id"] = $respuesta["id"];
+                    $_SESSION["nombre"] = $respuesta["nombre"];
+                    $_SESSION["usuario"] = $respuesta["usuario"];
+                    $_SESSION["foto"] = $respuesta["foto"];
+                    $_SESSION["perfil"] = $respuesta["perfil"];
                     echo '<script>
                         window.location = "inicio";
                       </script>';
@@ -25,14 +29,17 @@ class ControladorUsuarios
             }
         }
     }
+    /*=============================================
+	CREAR USUARIO
+	=============================================*/
     static public function ctrCrearUsuario(){
         if(isset($_POST["nuevoUsuario"])){
             if(preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nuevoNombre"]) &&
                 preg_match('/^[a-zA-Z0-9]+$/', $_POST["nuevoUsuario"]) &&
                 preg_match('/^[a-zA-Z0-9]+$/', $_POST["nuevoPassword"])){
-            /*=============================================
-             VALIDAR IMAGEN
-             =============================================*/
+                /*=============================================
+                 VALIDAR IMAGEN
+                =============================================*/
                 $ruta = "";
                 if(isset($_FILES["nuevaFoto"]["tmp_name"])){
                     list($ancho, $alto) = getimagesize($_FILES["nuevaFoto"]["tmp_name"]);
@@ -71,11 +78,7 @@ class ControladorUsuarios
                 }
                 $tabla = "usuarios";
                 $encriptar = crypt($_POST["nuevoPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
-                $datos = array("nombre" => $_POST["nuevoNombre"],
-                    "usuario" => $_POST["nuevoUsuario"],
-                    "password" => $encriptar,
-                    "perfil" => $_POST["nuevoPerfil"],
-                    "foto"=>$ruta);
+                $datos = array("nombre" => $_POST["nuevoNombre"],"usuario" => $_POST["nuevoUsuario"],"password" => $encriptar,"perfil" => $_POST["nuevoPerfil"],"foto"=>$ruta);
                 $respuesta = ModeloUsuarios::mdlIngresarUsuario($tabla, $datos);
                 if($respuesta == "ok"){
                     echo '<script>
@@ -98,7 +101,6 @@ class ControladorUsuarios
 						title: "¡El usuario no puede ir vacío o llevar caracteres especiales!",
 						showConfirmButton: true,
 						confirmButtonText: "Cerrar"
-
 					}).then(function(result){
 						if(result.value){						
 							window.location = "usuarios";
@@ -107,5 +109,13 @@ class ControladorUsuarios
 				</script>';
             }
         }
+    }
+
+    /*=============================================
+	MOSTRAR USUARIO
+	=============================================*/
+    static public function ctrMostrarUsuarios($item, $valor){
+        $tabla = "usuarios";
+        return ModeloUsuarios::MdlMostrarUsuarios($tabla, $item, $valor);
     }
 }
