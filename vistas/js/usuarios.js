@@ -48,9 +48,11 @@ $(".btnEditarUsuario").click(function(){
         processData: false,
         dataType: "json",
         success: function(data){
+            console.log(data)
             $("#editarNombre").val(data["nombre"]);
             $("#editarUsuario").val(data["usuario"]);
             $("#editarPerfil").html(data["perfil"]);
+            $("#editarPerfil").val(data["perfil"]);
             $("#fotoActual").val(data["foto"]);
             $("#passwordActual").val(data["password"]);
             if(data["foto"] !== ""){
@@ -59,8 +61,51 @@ $(".btnEditarUsuario").click(function(){
         }
     })
 })
+/*=============================================
+    ACTIVAR USUARIO
+ =============================================*/
+$(document).on("click", ".btnActivar", function(){
+    let idUsuario = $(this).attr("idUsuario");
+    let estadoUsuario = $(this).attr("estadoUsuario");
 
+    let datos = new FormData();
+    datos.append("activarId", idUsuario);
+    datos.append("activarUsuario", estadoUsuario);
 
+    $.ajax({
+        url:"ajax/usuarios.ajax.php",
+        method: "POST",
+        data: datos,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function(respuesta){
+            if(window.matchMedia("(max-width:767px)").matches){
+                swal({
+                    title: "El usuario ha sido actualizado",
+                    type: "success",
+                    confirmButtonText: "¡Cerrar!"
+                }).then(function(result) {
+                    if (result.value) {
+                        console.log(respuesta)
+                        window.location = "usuarios";
+                    }
+                });
+            }
+        }
+    })
+    if(estadoUsuario == 0){
+        $(this).removeClass('btn-success');
+        $(this).addClass('btn-danger');
+        $(this).html('Desactivado');
+        $(this).attr('estadoUsuario',1);
+    }else{
+        $(this).addClass('btn-success');
+        $(this).removeClass('btn-danger');
+        $(this).html('Activado');
+        $(this).attr('estadoUsuario',0);
+    }
+})
 
 
 
