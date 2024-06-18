@@ -5,7 +5,6 @@ $('.sidebar-menu').tree()
 /*=============================================
 Datatables
 =============================================*/
-
 $(".tablas").DataTable({
     "language": {
         "sProcessing":     "Procesando...",
@@ -30,7 +29,12 @@ $(".tablas").DataTable({
             "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
             "sSortDescending": ": Activar para ordenar la columna de manera descendente"
         }
-
     }
-
 });
+/*=============================================
+ //iCheck for checkbox and radio inputs
+=============================================*/
+$('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+    checkboxClass: 'icheckbox_minimal-blue',
+    radioClass   : 'iradio_minimal-blue'
+})
