@@ -129,15 +129,15 @@ class ControladorUsuarios
         return ModeloUsuarios::MdlMostrarUsuarios($tabla, $item, $valor);
     }
     /*=============================================
-	EDITAR USUARIO
-	=============================================*/
+    EDITAR USUARIO
+    =============================================*/
     static public function ctrEditarUsuario(){
 
         if(isset($_POST["editarUsuario"])){
             if(preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarNombre"]) ){
                 /*=============================================
-	            VALIDAR IMAGEN
-	            =============================================*/
+                VALIDAR IMAGEN
+                =============================================*/
                 $ruta = $_POST["fotoActual"];
                 if(isset($_FILES["editarFoto"]) && !empty($_FILES["editarFoto"]["tmp_name"])){
                     list($ancho, $alto) = getimagesize($_FILES["editarFoto"]["tmp_name"]);
@@ -150,11 +150,14 @@ class ControladorUsuarios
                     /*=============================================
                     PRIMERO PREGUNTAMOS SI EXISTE OTRA IMAGEN EN LA BD
                     =============================================*/
-                    if(!empty($_POST["fotoActual"])){
+                    if(!empty($_POST["fotoActual"]) && file_exists($_POST["fotoActual"])){
                         unlink($_POST["fotoActual"]);
-                    }else{
-                        mkdir($directorio, 0755);
+                    } else {
+                        if(!is_dir($directorio)){
+                            mkdir($directorio, 0755);
+                        }
                     }
+
                     /*=============================================
                     DE ACUERDO AL TIPO DE IMAGEN APLICAMOS LAS FUNCIONES POR DEFECTO DE PHP
                     =============================================*/
@@ -169,6 +172,7 @@ class ControladorUsuarios
                         imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
                         imagejpeg($destino, $ruta);
                     }
+
                     if($_FILES["editarFoto"]["type"] == "image/png"){
                         /*=============================================
                         GUARDAMOS LA IMAGEN EN EL DIRECTORIO
@@ -186,28 +190,31 @@ class ControladorUsuarios
                 if($_POST["editarPassword"] != ""){
                     if(preg_match('/^[a-zA-Z0-9]+$/', $_POST["editarPassword"])){
                         $encriptar = crypt($_POST["editarPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
-                    }else{
+                    } else {
                         echo '<script>
-                            Swal.fire({
-                                icon: "error",
-                                title: "¡La contraseña no puede ir vacía o llevar caracteres especiales!",
-                                showConfirmButton: true,
-                                confirmButtonText: "Cerrar"
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    window.location = "usuarios";
-                                }
-                            });
-                        </script>';
+                        Swal.fire({
+                            icon: "error",
+                            title: "¡La contraseña no puede ir vacía o llevar caracteres especiales!",
+                            showConfirmButton: true,
+                            confirmButtonText: "Cerrar"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location = "usuarios";
+                            }
+                        });
+                    </script>';
+                        return;
                     }
-                }else{
+                } else {
                     $encriptar = $_POST["passwordActual"];
                 }
-                $datos = array("nombre" => $_POST["editarNombre"],
+                $datos = array(
+                    "nombre" => $_POST["editarNombre"],
                     "usuario" => $_POST["editarUsuario"],
                     "password" => $encriptar,
                     "perfil" => $_POST["editarPerfil"],
-                    "foto" => $ruta);
+                    "foto" => $ruta
+                );
                 $respuesta = ModeloUsuarios::mdlEditarUsuario($tabla, $datos);
                 if($respuesta == "ok"){
                     echo '<script>
@@ -223,22 +230,23 @@ class ControladorUsuarios
                         });
                     </script>';
                 }
-            }else{
+            } else {
                 echo '<script>
-                    Swal.fire({
-                        icon: "error",
-                        title: "¡La contraseña no puede ir vacía o llevar caracteres especiales!",
-                        showConfirmButton: true,
-                        confirmButtonText: "Cerrar"
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location = "usuarios";
-                        }
-                    });
-                </script>';
+                Swal.fire({
+                    icon: "error",
+                    title: "¡El nombre no puede llevar caracteres especiales!",
+                    showConfirmButton: true,
+                    confirmButtonText: "Cerrar"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location = "usuarios";
+                    }
+                });
+            </script>';
             }
         }
     }
+
     /*=============================================
 	BORRAR USUARIO
 	=============================================*/

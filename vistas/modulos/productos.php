@@ -8,6 +8,7 @@
             <li class="active">Administrar productos</li>
         </ol>
     </section>
+
     <section class="content">
         <div class="box">
             <div class="box-header with-border">
@@ -18,46 +19,45 @@
             <div class="box-body">
                 <table class="table table-bordered table-striped dt-responsive tablaProductos" width="100%">
                     <thead>
-                    <tr>
-                        <th style="width:10px">#</th>
-                        <th>Imagen</th>
-                        <th>Código</th>
-                        <th>Descripción</th>
-                        <th>Categoría</th>
-                        <th>Stock</th>
-                        <th>Precio de compra</th>
-                        <th>Precio de venta</th>
-                        <th>Agregado</th>
-                        <th>Acciones</th>
-                    </tr>
+                        <tr>
+                            <th style="width:10px">#</th>
+                            <th>Imagen</th>
+                            <th>Código</th>
+                            <th>Descripción</th>
+                            <th>Categoría</th>
+                            <th>Stock</th>
+                            <th>Precio de compra</th>
+                            <th>Precio de venta</th>
+                            <th>Agregado</th>
+                            <th>Acciones</th>
+                        </tr>
                     </thead>
                     <?php
-                        $item = null;
-                        $valor = null;
-                        $productos = ControladorProductos::ctrMostrarProductos($item, $valor);
-                        foreach ($productos as $key => $value) {
-                            echo '<tr>
-                                <td>'.($key+1).'</td>
-                                <td><img src="vistas/img/productos/default/anonymous.png" class="img-thumbnail" width="40px"></td>
-                                <td>'.$value["codigo"].'</td>
-                                <td>'.$value["descripcion"].'</td>';
-                                $item = "id";
-                                $valor = $value["id_categoria"];
-                                $categoria = ControladorCategorias::ctrMostrarCategorias($item, $valor);
-                                echo '<td>'.$categoria["categoria"].'</td>
-                                <td>'.$value["stock"].'</td>
-                                <td>'.$value["precio_compra"].'</td>
-                                <td>'.$value["precio_venta"].'</td>
-                                <td>'.$value["fecha"].'</td>
-                                <td>
-                                    <div class="btn-group">                        
-                                      <button class="btn btn-warning"><i class="fa fa-pencil"></i></button>
-                                      <button class="btn btn-danger"><i class="fa fa-times"></i></button>
-                                    </div>  
-        
-                                </td>
-                            </tr>';
-                        }
+                    $item = null;
+                    $valor = null;
+                    $productos = ControladorProductos::ctrMostrarProductos($item, $valor);
+                    foreach ($productos as $key => $value) {
+                        echo '<tr>
+                            <td>' . ($key + 1) . '</td>
+                            <td><img src="vistas/img/productos/default/anonymous.png" class="img-thumbnail" width="40px"></td>
+                            <td>' . $value["codigo"] . '</td>
+                            <td>' . $value["descripcion"] . '</td>';
+                            $item = "id";
+                            $valor = $value["id_categoria"];
+                            $categoria = ControladorCategorias::ctrMostrarCategorias($item, $valor);
+                            echo '<td>' . $categoria["categoria"] . '</td>
+                            <td>' . $value["stock"] . '</td>
+                            <td>' . $value["precio_compra"] . '</td>
+                            <td>' . $value["precio_venta"] . '</td>
+                            <td>' . $value["fecha"] . '</td>
+                            <td>
+                            <div class="btn-group">                        
+                              <button class="btn btn-warning"><i class="fa fa-pencil"></i></button>
+                              <button class="btn btn-danger"><i class="fa fa-times"></i></button>
+                            </div>  
+                            </td>
+                        </tr>';
+                    }
                     ?>
                 </table>
             </div>
@@ -88,16 +88,15 @@ MODAL AGREGAR PRODUCTO
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-th"></i></span>
                                 <select class="form-control input-lg" id="nuevaCategoria" name="nuevaCategoria" required>
-                                    <option value="">Seleccionar categoría</option>
+                                    <option value="">Selecionar categoría</option>
                                     <?php
-                                        $item = null;
-                                        $valor = null;
-                                        $categorias = ControladorCategorias::ctrMostrarCategorias($item, $valor);
-                                        foreach ($categorias as $key => $value) {
-                                            echo '<option value="'.$value["id"].'">'.$value["categoria"].'</option>';
-                                        }
+                                    $item = null;
+                                    $valor = null;
+                                    $categorias = ControladorCategorias::ctrMostrarCategorias($item, $valor);
+                                    foreach ($categorias as $key => $value) {
+                                        echo '<option value="' . $value["id"] . '">' . $value["categoria"] . '</option>';
+                                    }
                                     ?>
-
                                 </select>
                             </div>
                         </div>
@@ -142,7 +141,7 @@ MODAL AGREGAR PRODUCTO
                                     <div class="form-group">
                                         <label>
                                             <input type="checkbox" class="minimal porcentaje" checked>
-                                            Utilizar porcentaje
+                                            Utilizar procentaje
                                         </label>
                                     </div>
                                 </div>
@@ -174,14 +173,16 @@ MODAL AGREGAR PRODUCTO
             </form>
             <?php
                 $crearProducto = new ControladorProductos();
-                $crearProducto -> ctrCrearProducto();
+                $crearProducto->ctrCrearProducto();
             ?>
         </div>
     </div>
 </div>
+
 <!--=====================================
 MODAL EDITAR PRODUCTO
 ======================================-->
+
 <div id="modalEditarProducto" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -248,7 +249,7 @@ MODAL EDITAR PRODUCTO
                                     <div class="form-group">
                                         <label>
                                             <input type="checkbox" class="minimal porcentaje" checked>
-                                            Utilizar porcentaje
+                                            Utilizar procentaje
                                         </label>
                                     </div>
                                 </div>
@@ -281,15 +282,15 @@ MODAL EDITAR PRODUCTO
             </form>
             <?php
                 $editarProducto = new ControladorProductos();
-                $editarProducto -> ctrEditarProducto();
+                $editarProducto->ctrEditarProducto();
             ?>
         </div>
     </div>
 </div>
 <?php
     $eliminarProducto = new ControladorProductos();
-    $eliminarProducto -> ctrEliminarProducto();
-?>
+    $eliminarProducto->ctrEliminarProducto();
+?>      
 
 
 
