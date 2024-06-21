@@ -33,7 +33,7 @@
                         </tr>
                     </thead>
                     <?php
-                    $item = null;
+/*                    $item = null;
                     $valor = null;
                     $productos = ControladorProductos::ctrMostrarProductos($item, $valor);
                     foreach ($productos as $key => $value) {
@@ -58,7 +58,7 @@
                             </td>
                         </tr>';
                     }
-                    ?>
+                    */?>
                 </table>
             </div>
         </div>
@@ -88,7 +88,7 @@ MODAL AGREGAR PRODUCTO
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-th"></i></span>
                                 <select class="form-control input-lg" id="nuevaCategoria" name="nuevaCategoria" required>
-                                    <option value="">Selecionar categoría</option>
+                                    <option value="">Seleccionar categoría</option>
                                     <?php
                                     $item = null;
                                     $valor = null;
