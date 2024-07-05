@@ -6,7 +6,7 @@ class ModeloProductos{
 	/*=============================================
 	MOSTRAR PRODUCTOS
 	=============================================*/
-	static public function mdlMostrarProductos($tabla, $item, $valor){
+	static public function mdlMostrarProductos3($tabla, $item, $valor){
 		if($item != null){
 			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item ORDER BY id DESC");
 			$stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
@@ -20,9 +20,24 @@ class ModeloProductos{
         $stmt = null;
         return $resultado;
 	}
-	/*=============================================
-	REGISTRO DE PRODUCTO
-	=============================================*/
+
+    static public function mdlMostrarProductos($tabla, $item, $valor){
+        if($item != null){
+            $stmt = Conexion::conectar()->prepare("SELECT p.*, c.categoria FROM $tabla p JOIN categorias c ON p.id_categoria = c.id WHERE p.$item = :$item ORDER BY p.id DESC");
+            $stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
+            $stmt -> execute();
+            return $stmt -> fetch();
+        } else {
+            $stmt = Conexion::conectar()->prepare("SELECT p.*, c.categoria FROM $tabla p JOIN categorias c ON p.id_categoria = c.id");
+            $stmt->execute();
+            $resultado = $stmt->fetchAll();
+        }
+        $stmt = null;
+        return $resultado;
+    }
+    /*=============================================
+    REGISTRO DE PRODUCTO
+    =============================================*/
 	static public function mdlIngresarProducto($tabla, $datos){
 		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(id_categoria, codigo, descripcion, imagen, stock, precio_compra, precio_venta) VALUES (:id_categoria, :codigo, :descripcion, :imagen, :stock, :precio_compra, :precio_venta)");
 		$stmt->bindParam(":id_categoria", $datos["id_categoria"], PDO::PARAM_INT);

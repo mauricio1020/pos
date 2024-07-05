@@ -1,23 +1,12 @@
 /*=============================================
 CARGAR LA TABLA DINÁMICA DE PRODUCTOS
 =============================================*/
-// $.ajax({
-
-// 	url: "ajax/datatable-productos.ajax.php",
-// 	success:function(respuesta){
-		
-// 		console.log("respuesta", respuesta);
-
-// 	}
-
-// })
 $('.tablaProductos').DataTable( {
     "ajax": "ajax/datatable-productos.ajax.php",
     "deferRender": true,
 	"retrieve": true,
 	"processing": true,
 	 "language": {
-
 			"sProcessing":     "Procesando...",
 			"sLengthMenu":     "Mostrar _MENU_ registros",
 			"sZeroRecords":    "No se encontraron resultados",
@@ -141,7 +130,7 @@ $(".nuevaImagen").change(function(){
 /*=============================================
 EDITAR PRODUCTO
 =============================================*/
-$('.tablaProductos tbody').on("click", "button.btnEditarProducto", function(){
+/*$('.tablaProductos tbody').on("click", "button.btnEditarProducto3", function(){
 	let idProducto = $(this).attr("idProducto");
 	let datos = new FormData();
     datos.append("idProducto", idProducto);
@@ -181,7 +170,35 @@ $('.tablaProductos tbody').on("click", "button.btnEditarProducto", function(){
            }
       }
   })
-})
+})*/
+$('.tablaProductos tbody').on("click", "button.btnEditarProducto", function(){
+	let idProducto = $(this).attr("idProducto");
+	let datos = new FormData();
+	datos.append("idProducto", idProducto);
+	$.ajax({
+		url: "ajax/productos.ajax.php",
+		method: "POST",
+		data: datos,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType: "json",
+		success: function(respuesta){
+			//console.log(respuesta)
+			$('#editarCategoria').val(respuesta["id_categoria"]);
+			$('#editarCategoria').html(respuesta["categoria"]);
+			$('#editarCodigo').val(respuesta["codigo"]);
+			$('#editarDescripcion').val(respuesta["descripcion"]);
+			$('#editarStock').val(respuesta["stock"]);
+			$('#editarPrecioCompra').val(respuesta["precio_compra"]);
+			$('#editarPrecioVenta').val(respuesta["precio_venta"]);
+			if(respuesta["imagen"] != ""){
+				$("#imagenActual").val(respuesta["imagen"]);
+				$(".previsualizar").attr("src",  respuesta["imagen"]);
+			}
+		}
+	});
+});
 /*=============================================
 ELIMINAR PRODUCTO
 =============================================*/

@@ -32,33 +32,6 @@
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <?php
-/*                    $item = null;
-                    $valor = null;
-                    $productos = ControladorProductos::ctrMostrarProductos($item, $valor);
-                    foreach ($productos as $key => $value) {
-                        echo '<tr>
-                            <td>' . ($key + 1) . '</td>
-                            <td><img src="vistas/img/productos/default/anonymous.png" class="img-thumbnail" width="40px"></td>
-                            <td>' . $value["codigo"] . '</td>
-                            <td>' . $value["descripcion"] . '</td>';
-                            $item = "id";
-                            $valor = $value["id_categoria"];
-                            $categoria = ControladorCategorias::ctrMostrarCategorias($item, $valor);
-                            echo '<td>' . $categoria["categoria"] . '</td>
-                            <td>' . $value["stock"] . '</td>
-                            <td>' . $value["precio_compra"] . '</td>
-                            <td>' . $value["precio_venta"] . '</td>
-                            <td>' . $value["fecha"] . '</td>
-                            <td>
-                            <div class="btn-group">                        
-                              <button class="btn btn-warning"><i class="fa fa-pencil"></i></button>
-                              <button class="btn btn-danger"><i class="fa fa-times"></i></button>
-                            </div>  
-                            </td>
-                        </tr>';
-                    }
-                    */?>
                 </table>
             </div>
         </div>
@@ -141,7 +114,7 @@ MODAL AGREGAR PRODUCTO
                                     <div class="form-group">
                                         <label>
                                             <input type="checkbox" class="minimal porcentaje" checked>
-                                            Utilizar procentaje
+                                            Utilizar porcentaje
                                         </label>
                                     </div>
                                 </div>
@@ -178,11 +151,9 @@ MODAL AGREGAR PRODUCTO
         </div>
     </div>
 </div>
-
 <!--=====================================
 MODAL EDITAR PRODUCTO
 ======================================-->
-
 <div id="modalEditarProducto" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
