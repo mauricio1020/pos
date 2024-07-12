@@ -61,7 +61,7 @@ $(".tablaClientes tbody").on("click", "button.btnEditarCliente", function(){
 ELIMINAR CLIENTE
 =============================================*/
 $('.tablaClientes tbody').on("click", "button.btnEliminarCliente", function(){
-	let idCliente = $(this).attr("idCliente");
+	let idCliente = $(this).attr("idBorrarCliente");
 	Swal.fire({
 		title: '¿Está seguro de borrar el cliente?',
 		text: "¡Si no lo está puede cancelar la acción!",
@@ -74,14 +74,26 @@ $('.tablaClientes tbody').on("click", "button.btnEliminarCliente", function(){
 	}).then((result) => {
 		if (result.isConfirmed) {
 			$.ajax({
-				url: "ajax/eliminar-cliente.ajax.php",
+				//url: "ajax/eliminar-cliente.ajax.php",
+				url: "ajax/clientes.ajax.php",
 				method: "POST",
-				data: { idCliente: idCliente },
+				data: { idBorrarCliente: idCliente },
 				dataType: "json",
 				success: function(respuesta){
 					// Manejo de respuesta después de eliminar cliente
 					console.log(respuesta);
-					// Puedes mostrar una notificación, recargar la tabla, etc.
+					if(respuesta == "ok"){
+						Swal.fire({
+							icon: "success",
+							title: "El cliente ha sido borrado correctamente",
+							showConfirmButton: true,
+							confirmButtonText: "Cerrar"
+						}).then((result) => {
+							if (result.isConfirmed) {
+								window.location = "clientes";
+							}
+						});
+					}
 				}
 			});
 		}

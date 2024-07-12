@@ -197,8 +197,8 @@ MODAL EDITAR CLIENTE
     </div>
 </div>
 <?php
-$eliminarCliente = new ControladorClientes();
+/*$eliminarCliente = new ControladorClientes();
 $eliminarCliente->ctrEliminarCliente();
-?>
+*/?>
 
 

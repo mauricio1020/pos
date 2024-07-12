@@ -18,7 +18,7 @@ class TablaClientes
         // Recorrer los clientes y agregar al JSON
         for ($i = 0; $i < count($clientes); $i++) {
             // Acciones de botones
-            $acciones = "<div class='btn-group'><button class='btn btn-warning btnEditarCliente' idCliente='" . $clientes[$i]["id"] . "' data-toggle='modal' data-target='#modalEditarCliente'><i class='fa fa-pencil'></i></button><button class='btn btn-danger btnEliminarCliente' idProducto='" . $clientes[$i]["id"] . "'><i class='fa fa-times'></i></button></div>";
+            $acciones = "<div class='btn-group'><button class='btn btn-warning btnEditarCliente' idCliente='" . $clientes[$i]["id"] . "' data-toggle='modal' data-target='#modalEditarCliente'><i class='fa fa-pencil'></i></button><button class='btn btn-danger btnEliminarCliente' idBorrarCliente='" . $clientes[$i]["id"] . "'><i class='fa fa-times'></i></button></div>";
             // Construir la fila de datos
             $datosJson .= '[
                         "' . ($i + 1) . '",
